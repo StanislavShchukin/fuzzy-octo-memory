@@ -1,0 +1,83 @@
+X = 'X'
+O = 'O'
+max_number = 9
+empty, tie = ' ', 'tie'
+
+
+def instruction():
+    print(
+        '''
+        Привет! Это игра "Крестики-нолики".
+        Чтобы сделать ход, введи номер клетки,
+        куда хочешь поставить свой символ:
+
+        0 | 1 | 2
+        ---------
+        3 | 4 | 5
+        ---------
+        6 | 7 | 8
+        
+        First player is X
+        Second is O
+        Make your move)
+        ''')
+
+
+def new_board():
+    board = []
+    for i in range(max_number):
+        board.append(empty)
+    return board
+
+
+def display(board):
+    print(f'\t{board[0]} | {board[1]} | {board[2]}\t\t0 | 1 | 2')
+    print('\t---------\t\t---------')
+    print(f'\t{board[3]} | {board[4]} | {board[5]}\t\t3 | 4 | 5')
+    print('\t---------\t\t---------')
+    print(f'\t{board[6]} | {board[7]} | {board[8]}\t\t6 | 7 | 8')
+    print()
+
+
+def human_moves(board, symbol):
+    number = 0
+    if number in range(max_number):
+        number = int(input('\tEnter your num: '))
+        if board[number] == empty:
+            board[number] = symbol
+            display(board)
+
+        return board
+
+
+def winners():
+    winner = ((0, 1, 2),
+              (3, 4, 5),
+              (6, 7, 8),
+              (0, 3, 6),
+              (1, 4, 7),
+              (2, 5, 8),
+              (0, 4, 8),
+              (2, 4, 6))
+    for combination in winner:
+        if X == combination[0] == combination[1] == combination[2]:
+            print(f'Congratulations, {X} stronger than others)')
+            return True
+        elif O == combination[0] == combination[1] == combination[2]:
+            print(f'Congratulations, {O} stronger than others)')
+            return True
+    return False
+
+
+def main():
+    instruction()
+    board = new_board()
+    display(board)
+    while not winners():
+        board = human_moves(board, X)
+        board = human_moves(board, O)
+
+    print('The end')
+
+
+main()
